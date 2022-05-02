@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./Plantilla.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+    <ui:define name="content">
+        <h:head>
+            <f:event listener="#{demoC.listar()}" type="preRenderView"/>
+        </h:head>
+        <p:growl id="mensaje" severity="info,fatal" showSummary="true" showDetail="true" skipDetailIfEqualsSummary="true"/>
+
+        <h:body>
+
+            <br/>
+
+            <div>
+                <center>
+                    <h1 style="color:black; font-weight:bold; font-size:40px">ToggleSwitch y Calendar</h1>
+                </center>
+            </div>
+
+            <p:separator/>
+
+            <h:form id="form">
+                <center>
+                    <p:panelGrid columns="2" styleClass="ui-noborder">
+                        <p:outputLabel value="ToggleSwitch Simple" for="campo1" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:toggleSwitch id="campo1" value="#{demoC.demo.CAMPO1}">
+                            <p:ajax listener="#{demoC.mensaje1()}"/>
+                            <p:tooltip for="campo1" value="Seleccione" trackMouse="focus"/>
+                        </p:toggleSwitch>
+
+                        <p:outputLabel value="ToggleSwitch Ajax" for="campo2" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:toggleSwitch id="campo2" value="#{demoC.demo.CAMPO2}">
+                            <p:ajax listener="#{demoC.mensaje2()}" update="mensaje"/>
+                            <p:tooltip for="campo2" value="Seleccione" trackMouse="focus"/>
+                        </p:toggleSwitch>
+
+                        <p:outputLabel value="Calendar Inline" for="campo3" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:calendar id="campo3" value="#{demoC.demo.CAMPO3}" mode="inline" pattern="dd-MM-yyyy" navigator="true" locale="es" size="15">
+                            <p:tooltip for="campo3" value="Ingrese la Fecha" trackMouse="focus"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Calendar Button" for="campo4" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:calendar id="campo4" value="#{demoC.demo.CAMPO4}" showOn="button" pattern="dd-MM-yyyy" mask="true" navigator="true" locale="es" size="15">
+                            <p:tooltip for="campo4" value="Ingrese la Fecha" trackMouse="focus"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Calendar German" for="campo5" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:calendar id="campo5" value="#{demoC.demo.CAMPO5}" pattern="dd-MM-yyyy" navigator="true" mask="true" locale="es" size="20">
+                            <p:tooltip for="campo5" value="Ingrese la Fecha" trackMouse="focus"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Calendar Multiple" for="campo6" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:calendar id="campo6" value="#{demoC.demo.CAMPO6}" pages="2" pattern="dd-MM-yyyy" mask="true" locale="es" size="20">
+                            <p:tooltip for="campo6" value="Ingrese la Fecha" trackMouse="focus"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Calendar DateTime" for="campo7" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:calendar id="campo7" value="#{demoC.demo.CAMPO7}" pattern="dd-MM-yyyy HH:mm:ss" navigator="true" mask="true" locale="es" size="20">
+                            <p:tooltip for="campo7" value="Ingrese la Fecha" trackMouse="focus"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Calendar Time Only" for="campo8" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:calendar id="campo8" value="#{demoC.demo.CAMPO8}" timeOnly="true" pattern="HH:mm:ss" navigator="true" mask="true" locale="es" size="20">
+                            <p:tooltip for="campo8" value="Ingrese la Fecha" trackMouse="focus"/>
+                        </p:calendar>
+                    </p:panelGrid>
+                    <p:panelGrid columns="1" styleClass="ui-noborder">
+                        <p:commandButton value="Registrar" actionListener="#{demoC.registrar()}" icon="pi pi-save"
+                                         update=":form2:tablaDemo form mensaje" style="font-weight:bold; font-size:18px">
+                            <p:confirm header="Confirmación" message="¿Desea Registrar?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </p:panelGrid>
+                </center>
+            </h:form>
+
+            <br/>
+
+            <div class="card" style="margin-left: 50px; margin-right: 50px">
+                <h:form id="form2">
+                    <center>
+                        <p:dataTable id="tablaDemo" var="tbldemo" value="#{demoC.listadoDemo}" selection="#{demoC.demo}"
+                                     selectionMode="single" rowKey="#{tbldemo.IDDEM}" resizableColumns="true" paginator="true" rows="3"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="5,10,15,{ShowAll|'All'}" style="width: 100%; border-style: none;">
+                            <f:facet name= "header"><center style="color: black; font-weight:bold; font-size: 25px">LISTA DE DATOS</center></f:facet>
+                            <p:column style="width:10px; color: black" headerText="ID">
+                                <h:outputText value="#{tbldemo.IDDEM}"/>
+                            </p:column>
+                            <p:column style="width:50px; color: black" headerText="Tog. Simple">
+                                <h:outputText value="#{tbldemo.CAMPO1}"/>
+                            </p:column>
+                            <p:column style="width:50px; color: black" headerText="Tog. Ajax">
+                                <h:outputText value="#{tbldemo.CAMPO2}"/>
+                            </p:column>
+                            <p:column style="width:70px; color: black" headerText="Cal. Inline">
+                                <h:outputText value="#{tbldemo.CAMPO3}">
+                                    <f:converter converterId="fechaCV"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="width:70px; color: black" headerText="Cal. Button">
+                                <h:outputText value="#{tbldemo.CAMPO4}">
+                                    <f:converter converterId="fechaCV"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="width:70px; color: black" headerText="Cal. German">
+                                <h:outputText value="#{tbldemo.CAMPO5}">
+                                    <f:converter converterId="fechaCV"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="width:70px; color: black" headerText="Cal. Multiple">
+                                <h:outputText value="#{tbldemo.CAMPO6}">
+                                    <f:converter converterId="fechaCV"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="width:100px; color: black" headerText="Cal. DateTime">
+                                <h:outputText value="#{tbldemo.CAMPO7}">
+                                    <f:converter converterId="fechaHoraCV"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="width:100px; color: black" headerText="Cal. Time Only">
+                                <h:outputText value="#{tbldemo.CAMPO8}">
+                                    <f:converter converterId="horaCV"/>
+                                </h:outputText>
+                            </p:column>
+                            <f:facet name="footer">
+                                <center style="color: black; font-weight:bold; font-size: 20px">
+                                    EN TOTAL HAY #{fn:length(demoC.listadoDemo)} REGISTROS
+                                </center>
+                            </f:facet>
+                        </p:dataTable>
+                    </center>
+                </h:form>
+            </div>
+
+            <br/>
+
+            <div>
+                <center>
+                    <h1 style="color:black; font-weight:bold; font-size:40px">Fechas y Horas Actuales</h1>
+                </center>
+            </div>
+
+            <p:separator/>
+
+            <h:form id="form3">
+                <center>
+                    <p:panelGrid columns="2" styleClass="ui-noborder">
+                        <p:outputLabel value="Fecha Actual" for="campo1" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:calendar id="campo1" value="#{demoC.demo.FECHA}" pattern="dd-MM-yyyy" showOn="button" mask="true" navigator="true" locale="es" size="20">
+                            <p:tooltip for="campo1" value="Fecha Actual" trackMouse="focus"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Fecha y Hora Actual" for="campo2" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:calendar id="campo2" value="#{demoC.demo.FECHA_HORA}" pattern="dd-MM-yyyy HH:mm:ss" mask="true" showOn="button" navigator="true" locale="es" size="20">
+                            <p:tooltip for="campo2" value="Fecha y Hora Actual" trackMouse="focus"/>
+                        </p:calendar>
+
+                        <p:outputLabel value="Hora Actual" for="campo3" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:calendar id="campo3" value="#{demoC.demo.HORA}" timeOnly="true" pattern="HH:mm:ss" mask="true" showOn="button" navigator="true" locale="es" size="20">
+                            <p:tooltip for="campo3" value="Hora Actual" trackMouse="focus"/>
+                        </p:calendar>
+
+                        <p:commandButton value="Registrar" actionListener="#{demoC.registrarFechaHora()}" icon="pi pi-save"
+                                         update=":form4:tablaFechaHora mensaje" style="font-weight:bold; font-size:18px">
+                            <p:confirm header="Confirmación" message="¿Desea Registrar?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+
+                        <p:commandButton value="Ver Fecha y Hora" update="fechahora" icon="pi pi-table" immediate="true" oncomplete="PF('wdlgFechaHora').show();" 
+                                         style="font-weight:bold; font-size:18px">
+                        </p:commandButton>
+                    </p:panelGrid>
+                </center>
+            </h:form>
+
+            <p:dialog id="dlgFechaHora" header="FECHA Y HORA (Clock)" widgetVar="wdlgFechaHora" modal="true" showEffect="fade" hideEffect="fade">
+                <p:panelGrid id="fechahora" columns="2">
+                    <b style="color:black; font-weight:bold; font-size:16px">Fecha Actual</b><p:clock pattern="dd-MM-yyyy" mode="server"/>
+                    <b style="color:black; font-weight:bold; font-size:16px">Fecha y Hora Actual</b><p:clock pattern="dd-MM-yyyy HH:mm:ss" mode="server"/>
+                    <b style="color:black; font-weight:bold; font-size:16px">Hora Actual:</b><p:clock pattern="HH:mm:ss" mode="server"/>
+                </p:panelGrid>
+            </p:dialog>
+
+            <br/>
+
+            <div class="card" style="margin-left: 50px; margin-right: 50px">
+                <h:form id="form4">
+                    <center>
+                        <p:dataTable id="tablaFechaHora" var="tblfechahora" value="#{demoC.listadoFechaHora}" selection="#{demoC.demo}"
+                                     selectionMode="single" rowKey="#{tblfechahora.IDFEC}" resizableColumns="true" paginator="true" rows="3"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="5,10,15,{ShowAll|'All'}" style="width: 60%; border-style: none;">
+                            <f:facet name= "header"><center style="color: black; font-weight:bold; font-size: 25px">LISTA DE FECHAS Y HORAS</center></f:facet>
+                            <p:column style="width:10px; color: black" headerText="ID">
+                                <h:outputText value="#{tblfechahora.IDFEC}"/>
+                            </p:column>
+                            <p:column style="width:50px; color: black" headerText="Fecha">
+                                <h:outputText value="#{tblfechahora.FECHA}">
+                                    <f:converter converterId="fechaCV"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="width:80px; color: black" headerText="Fecha y Hora">
+                                <h:outputText value="#{tblfechahora.FECHA_HORA}">
+                                    <f:converter converterId="fechaHoraCV"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="width:50px; color: black" headerText="Hora">
+                                <h:outputText value="#{tblfechahora.HORA}">
+                                    <f:converter converterId="horaCV"/>
+                                </h:outputText>
+                            </p:column>
+                            <f:facet name="footer">
+                                <center style="color: black; font-weight:bold; font-size: 20px">
+                                    EN TOTAL HAY #{fn:length(demoC.listadoFechaHora)} REGISTROS
+                                </center>
+                            </f:facet>
+                        </p:dataTable>
+                    </center>
+                </h:form>
+            </div>
+
+            <br/>
+
+            <div>
+                <center>
+                    <h1 style="color:black; font-weight:bold; font-size:40px">Habilitar y Deshabilitar con ToggleSwitch</h1>
+                </center>
+            </div>
+
+            <p:separator/>
+
+            <h:form id="form5">
+                <center>
+                    <p:panelGrid columns="3" styleClass="ui-noborder">
+                        <p:outputLabel value="Habilitar / Deshabilitar un Button" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:toggleSwitch value="#{demoC.demo.CAMPO2}">
+                            <p:ajax listener="#{demoC.mensaje2()}" update="boton mensaje"/>
+                        </p:toggleSwitch>
+                        <p:commandButton id="boton" value="Button" icon="pi pi-save" disabled="#{demoC.demo.CAMPO2 eq false}" style="font-size: 20px; font-weight:bold">
+                        </p:commandButton>
+
+                        <p:outputLabel value="Habilitar / Deshabilitar un InputText" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:toggleSwitch value="#{demoC.demo.CAMPO2}">
+                            <p:ajax listener="#{demoC.mensaje2()}" update="txt mensaje"/>
+                        </p:toggleSwitch>
+                        <p:inputText id="txt" value="InputText" disabled="#{demoC.demo.CAMPO2 eq false}" style="font-size: 20px; font-weight:bold">
+                        </p:inputText>
+
+                        <p:outputLabel value="Habilitar / Deshabilitar un Calendar" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:toggleSwitch value="#{demoC.demo.CAMPO2}">
+                            <p:ajax listener="#{demoC.mensaje2()}" update="calendar mensaje"/>
+                        </p:toggleSwitch>
+                        <p:calendar id="calendar" disabled="#{demoC.demo.CAMPO2 eq false}" pattern="dd-MM-yyyy" navigator="true" mask="true" locale="es" style="font-size: 20px; font-weight:bold">
+                        </p:calendar>
+
+                        <p:outputLabel value="Habilitar / Deshabilitar un ToggleSwitch" style="color:black; font-weight:bold; font-size:16px"/>
+                        <p:toggleSwitch value="#{demoC.demo.CAMPO2}">
+                            <p:ajax listener="#{demoC.mensaje2()}" update="toggle mensaje"/>
+                        </p:toggleSwitch>
+                        <p:toggleSwitch id="toggle" value="ToggleSwitch" disabled="#{demoC.demo.CAMPO2 eq false}" style="font-size: 20px; font-weight:bold">
+                        </p:toggleSwitch>
+                    </p:panelGrid>
+                </center>
+            </h:form>
+
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            <h:form>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times"/>
+                </p:confirmDialog>
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>
