@@ -1,5 +1,5 @@
 # Trabajo4
-Trabajo 4 de Aplicaciones Empresariales en Java, componentes ToggleSwitch y Calendar de Primefaces.
+Trabajo 4 de Aplicaciones Empresariales en Java, componentes **ToggleSwitch** y **Calendar** de Primefaces.
 
 ## Tecnologías y herramientas utilizadas
 - Java: JDK 11
