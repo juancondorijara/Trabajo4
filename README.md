@@ -8,6 +8,6 @@ Trabajo 4 de Aplicaciones Empresariales en Java, componentes ToggleSwitch y Cale
 - Maven: Apache Maven 3.6.3
 - Server: Payara Server 5.202
 - Frameworks: Javaserver Faces (JSF)
-- Componente: Primefaces 8.0
+- Componente: Primefaces 10.0.0
 - Patrón: DAO
 - Motor de BD: Microsoft SQL Server Management Studio 18
